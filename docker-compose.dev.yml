@@ -1,0 +1,36 @@
+services:
+  tile_server:
+    build: ./services/tile_server
+    container_name: danger_crossing_tile_server
+    volumes:
+      - osm-data:/data/database/
+    ports:
+      - 8080:80
+    restart: unless-stopped
+    command: run
+  web:
+    build: ./services/web
+    container_name: danger_crossing_web
+    volumes:
+      - ./services/web/:/usr/src/app/
+      - acc-dict:/usr/src/app/danger_crossing/danger_crossing/acc_dict
+    ports:
+      - 5000:5000
+    depends_on:
+      - tile_server
+    restart: unless-stopped
+    environment:
+      - TZ=America/Chicago
+    command: flask run
+  cron:
+    build: ./services/cron
+    container_name: danger_crossing_cron
+    volumes:
+      - acc-dict:/usr/src/app/acc_dict
+    restart: unless-stopped
+    environment:
+      - TZ=America/Chicago
+    command: cron -f
+volumes:
+  osm-data:
+  acc-dict:
