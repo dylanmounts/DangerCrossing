@@ -71,11 +71,7 @@ def tile_server():
     zoom = flask.request.args.get("zoom")
     x_coord = flask.request.args.get("x_coord")
     y_coord = flask.request.args.get("y_coord")
-    image = f"{y_coord}.png"
-    directory = os.path.join(CWD, f"tiles/{zoom}/{x_coord}")
-    if not os.path.exists(os.path.join(directory, image)):
-        func.create_tile(zoom, x_coord, y_coord)
-    return flask.send_from_directory(directory, image)
+    return func.get_tile(zoom, x_coord, y_coord)
 
 
 if __name__ == "__main__":
