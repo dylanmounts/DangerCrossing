@@ -21,6 +21,7 @@ services:
       - tile_server
     restart: unless-stopped
     environment:
+      - FLASK_DEBUG=1
       - TZ=America/Chicago
     command: flask run
   cron:
