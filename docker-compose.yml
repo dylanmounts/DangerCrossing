@@ -8,6 +8,9 @@ services:
     ports:
       - 8080:80
     restart: unless-stopped
+    environment:
+      - THREADS=4
+      - OSM2PGSQL_EXTRA_ARGS=-C 1024 # Cache size in KB
     command: run
   web:
     build: ./services/web
@@ -35,7 +38,7 @@ services:
     depends_on:
       - web
     environment:
-      - SELF_SIGNED_CERT=1
+      - SELF_SIGNED_SSL_CERT=1
       - TZ=America/Chicago
     restart: unless-stopped
   cron:
