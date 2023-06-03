@@ -4,6 +4,7 @@ services:
     container_name: danger_crossing_tile_server
     volumes:
       - osm-data:/data/database/
+      - osm-tiles:/data/tiles/
     ports:
       - 8080:80
     restart: unless-stopped
@@ -46,5 +47,6 @@ services:
       - TZ=America/Chicago
     command: cron -f
 volumes:
-  osm-data:
   acc-dict:
+  osm-data:
+  osm-tiles:
