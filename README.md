@@ -104,9 +104,9 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-1. Install [Docker](https://docs.docker.com/get-docker/)
-2. Install [Docker Compose](https://docs.docker.com/compose/install/)
-3. Install [Git LFS](https://git-lfs.com/)
+1. Install [Git LFS](https://git-lfs.com/)
+2. Install [Docker](https://docs.docker.com/get-docker/)
+3. Install [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Installation
 
@@ -118,7 +118,7 @@ To get a local copy up and running follow these simple example steps.
     ```sh
     cd dangercrossing
     ```
-3. Pull the PBF extract
+3. Verify the PBF extract was downloaded
    ```sh
    git lfs pull
    ```
