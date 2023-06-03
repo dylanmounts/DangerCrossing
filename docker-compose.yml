@@ -35,6 +35,7 @@ services:
     depends_on:
       - web
     environment:
+      - SELF_SIGNED_CERT=1
       - TZ=America/Chicago
     restart: unless-stopped
   cron:
