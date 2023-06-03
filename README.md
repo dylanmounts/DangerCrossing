@@ -131,6 +131,10 @@ To get a local copy up and running follow these simple example steps.
       ```sh
       docker compose up --build -d
       ```
+5. **(Optional)** Add initial accidents to the map manually (or wait for the Cron service to pull new accidents every three hours)
+   ```sh
+   docker compose exec cron python danger_maker.py
+   ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
