@@ -4,9 +4,13 @@ services:
     container_name: danger_crossing_tile_server
     volumes:
       - osm-data:/data/database/
+      - osm-tiles:/data/tiles/
     ports:
       - 8080:80
     restart: unless-stopped
+    environment:
+      - THREADS=4
+      - OSM2PGSQL_EXTRA_ARGS=-C 1024 # Cache size in KB
     command: run
   web:
     build: ./services/web
@@ -34,6 +38,7 @@ services:
     depends_on:
       - web
     environment:
+      - SELF_SIGNED_SSL_CERT=1
       - TZ=America/Chicago
     restart: unless-stopped
   cron:
@@ -46,5 +51,6 @@ services:
       - TZ=America/Chicago
     command: cron -f
 volumes:
-  osm-data:
   acc-dict:
+  osm-data:
+  osm-tiles:

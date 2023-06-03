@@ -4,9 +4,13 @@ services:
     container_name: danger_crossing_tile_server
     volumes:
       - osm-data:/data/database/
+      - osm-tiles:/data/tiles/
     ports:
       - 8080:80
     restart: unless-stopped
+    environment:
+      - THREADS=4
+      - OSM2PGSQL_EXTRA_ARGS=-C 1024 # Cache size in KB
     command: run
   web:
     build: ./services/web
@@ -20,17 +24,20 @@ services:
       - tile_server
     restart: unless-stopped
     environment:
+      - FLASK_DEBUG=1
       - TZ=America/Chicago
     command: flask run
   cron:
     build: ./services/cron
     container_name: danger_crossing_cron
     volumes:
+      - ./services/cron/:/usr/src/app
       - acc-dict:/usr/src/app/acc_dict
     restart: unless-stopped
     environment:
       - TZ=America/Chicago
     command: cron -f
 volumes:
-  osm-data:
   acc-dict:
+  osm-data:
+  osm-tiles:

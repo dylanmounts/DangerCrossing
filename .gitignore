@@ -131,9 +131,11 @@ dmypy.json
 # VSCode files
 .vscode
 
-# Maintaining empty directories
-services/web/danger_crossing/danger_crossing/tiles/*
-!services/web/danger_crossing/danger_crossing/tiles/.gitkeep
+# Backup files
+*.bak
 
+# Maintaining empty directories
+services/nginx/ssl/certs/*
+!services/nginx/ssl/certs/.gitkeep
 services/nginx/ssl/private/*
 !services/nginx/ssl/private/.gitkeep

@@ -104,8 +104,9 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-1. Install [Docker](https://docs.docker.com/get-docker/)
-2. Install [Docker Compose](https://docs.docker.com/compose/install/)
+1. Install [Git LFS](https://git-lfs.com/)
+2. Install [Docker](https://docs.docker.com/get-docker/)
+3. Install [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Installation
 
@@ -117,15 +118,23 @@ To get a local copy up and running follow these simple example steps.
     ```sh
     cd dangercrossing
     ```
-3. Build and start the project
+3. Verify the PBF extract was downloaded
+   ```sh
+   git lfs pull
+   ```
+4. Build and start the project
    1. In a development environment
       ```sh
-      docker-compose -f docker-compose.dev.yml up --build -d
+      docker compose -f docker-compose.dev.yml up --build -d
       ```
    2. In a production environment
       ```sh
-      docker-compose up --build -d
+      docker compose up --build -d
       ```
+5. **(Optional)** Add initial accidents to the map manually (or wait for the Cron service to pull new accidents every three hours)
+   ```sh
+   docker compose exec cron python danger_maker.py
+   ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

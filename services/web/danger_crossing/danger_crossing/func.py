@@ -9,36 +9,25 @@ import shutil
 import flask
 import requests
 
+from danger_crossing import app
+
+
 CWD = "/usr/src/app/danger_crossing/danger_crossing/"
 
 
-def create_tile(zoom, x_coord, y_coord):
-    """Create the local directory for the zoom and x_coord if it doesn't
-    exist, then request the new tile from the tile server and save it.
+def get_tile(zoom, x_coord, y_coord):
+    """Retrieves the requested tile from the tile server
 
     Args:
-        zoom (str): Zoom level of new tile.
-        x_coord (str): X-coordinate of new tile.
-        y_coord (str): Y-coordinate of new tile.
+        zoom (str): Zoom level of the tile.
+        x_coord (str): X-coordinate of the tile.
+        y_coord (str): Y-coordinate of the tile.
     """
-    image = f"{y_coord}.png"
-    directory = os.path.join(CWD, f"tiles/{zoom}/{x_coord}")
-    if not os.path.isdir(directory):
-        try:
-            os.mkdir(directory)
-        except FileNotFoundError:
-            os.mkdir(os.path.join(CWD, f"tiles/{zoom}"))
-            os.mkdir(directory)
-    # The function is designed to request tiles from a tile server
-    # container living on the same pod. A URL for an external tile server
-    # could be substituted.
     tile_server_url = "http://tile_server/tile"
     response = requests.get(
         os.path.join(tile_server_url, zoom, x_coord, y_coord), stream=True
     )
-    with open(os.path.join(directory, image), "wb") as file:
-        response.raw.decode_content = True
-        shutil.copyfileobj(response.raw, file)
+    return response.raw
 
 
 def get_date_times(form):
