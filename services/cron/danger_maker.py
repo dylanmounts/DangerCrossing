@@ -18,6 +18,10 @@ import re
 
 import bs4
 import requests
+import redis
+
+
+REDIS = redis.Redis(host='redis', port=6379, db=0)
 
 
 class DangerMaker:
@@ -50,6 +54,10 @@ class DangerMaker:
             acc_dict = {}
         return acc_dict
 
+    def save_to_redis(self):
+        """Save the acc_dict to Redis."""
+        REDIS.set('acc_dict', json.dumps(self.acc_dict))
+
     def make_danger(self):
         """Pull the initial list of accident links from the MSHP website,
         process them, and save the results in the acc_dict JSON.
@@ -67,6 +75,7 @@ class DangerMaker:
             self.process_link(link)
         with open(self.dict_dir, "w", encoding="UTF-8") as file:
             file.write(json.dumps(self.acc_dict, indent=4))
+        self.save_to_redis()
 
     def process_link(self, link):
         """Verify if the accident is already in the acc_dict, and if not,
@@ -188,6 +197,10 @@ class DangerMaker:
         table_data = table.find_all("td")
         for data in table_data:
             self.acc_dict[acc_num]["misc"] = data.text
+
+    def save_to_redis(self):
+        """Save the acc_dict to Redis."""
+        REDIS.set('acc_dict', json.dumps(self.acc_dict))
 
 
 def main():

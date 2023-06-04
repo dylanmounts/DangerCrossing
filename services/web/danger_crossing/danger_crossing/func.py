@@ -3,16 +3,34 @@ for processing the acc_dict into a heatmap.
 """
 
 import datetime
+import json
 import os
-import shutil
 
 import flask
 import requests
+import redis
 
 from danger_crossing import app
 
 
-CWD = "/usr/src/app/danger_crossing/danger_crossing/"
+REDIS = redis.Redis(host='redis', port=6379, db=0)
+
+
+def get_acc_dict():
+    """Load the acc_dict from Redis.
+    
+    Returns:
+        dict: A dictionary containing the accident data. If no data is
+        found or a Redis error occurs, it returns an empty dictionary
+    """
+    try:
+        acc_dict = REDIS.get('acc_dict')
+        if acc_dict is None:
+            return {}
+        else:
+            return json.loads(acc_dict)
+    except redis.RedisError:
+        return {}
 
 
 def get_tile(zoom, x_coord, y_coord):
