@@ -4,22 +4,11 @@ Requires the associated func.py module."""
 
 import datetime
 import json
-import os
 
 import flask
 
 from danger_crossing import app, func
 
-
-CWD = "/usr/src/app/danger_crossing/danger_crossing/"
-
-try:
-    with open(
-        os.path.join(CWD, "acc_dict/complete_acc_dict.json"), "r", encoding="UTF-8"
-    ) as file:
-        ACC_DICT = json.load(file)
-except FileNotFoundError:
-    ACC_DICT = {}
 
 @app.route("/", methods=["POST", "GET"])
 def danger_crossing():
@@ -45,7 +34,7 @@ def danger_crossing():
     date_end_str = datetime.datetime.strftime(flask.session["date_end"], "%Y-%m-%d")
     now_str = datetime.datetime.strftime(datetime.datetime.now(), "%Y-%m-%d")
 
-    coords_dict = func.process_acc_dict(ACC_DICT)
+    coords_dict = func.process_acc_dict(func.get_acc_dict())
 
     # Capture session data to send to the template, but clear the session
     # to prevent unexpected behavior.
@@ -80,8 +69,7 @@ def get_accident():
     """Retrieve the accident information for the given accident id from
     the accident dictionary."""
     accident_id = flask.request.args.get("accident_id")
-    app.logger.info(ACC_DICT[accident_id])
-    return json.dumps(ACC_DICT[accident_id])
+    return json.dumps(func.get_acc_dict()[accident_id])
 
 
 if __name__ == "__main__":
