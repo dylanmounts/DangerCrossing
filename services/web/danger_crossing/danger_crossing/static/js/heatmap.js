@@ -54,7 +54,7 @@ function disablePinchRotate(map) {
 // Cluster and visualize points on the map
 function clusterPoints(map, data) {
     var clusterSource = new ol.source.Cluster({
-        distance: 30,
+        distance: 50,
         threshold: 5,
         source: data
     });
