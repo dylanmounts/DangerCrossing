@@ -63,33 +63,104 @@ map.once('postcompose', function(e) {
             var size = feature.get('features').length;
             var style = styleCache[size];
             if (!style) {
-                style = new ol.style.Style({
-                    image: new ol.style.Circle({  
-                        radius: 9,
-                        stroke: new ol.style.Stroke({
-                            color: '#fff',
+                if (size === 1) {
+                    style = new ol.style.Style({
+                        image: new ol.style.Circle({  
+                            radius: 10,
+                            stroke: new ol.style.Stroke({
+                                color: '#007bff',
+                            }),
+                            fill: new ol.style.Fill({
+                                color: 'rgba(0, 123, 255, 0.25)', 
+                            })
                         }),
-                        fill: new ol.style.Fill({
-                            color: 'rgba(255, 255, 255, 0.01)',
+                        text: new ol.style.Text({
+                            text: size.toString(),
+                            scale: 0.75,
+                            stroke: new ol.style.Stroke({
+                                width: 4
+                            }),
+                            fill: new ol.style.Fill({
+                                color: '#fff'
+                            })
                         })
-                    }),
-                    text: new ol.style.Text({
-                        text: size.toString(),
-                        scale: 0.75,
-                        stroke: new ol.style.Stroke({
-                            width: 4
+                    });
+                } else {
+                    style = new ol.style.Style({
+                        image: new ol.style.Circle({  
+                            radius: 10,
+                            stroke: new ol.style.Stroke({
+                                color: '#fff',
+                            }),
+                            fill: new ol.style.Fill({
+                                color: 'rgba(255, 255, 255, 0.01)',
+                            })
                         }),
-                        fill: new ol.style.Fill({
-                            color: '#fff'
+                        text: new ol.style.Text({
+                            text: size.toString(),
+                            scale: 0.75,
+                            stroke: new ol.style.Stroke({
+                                width: 4
+                            }),
+                            fill: new ol.style.Fill({
+                                color: '#fff'
+                            })
                         })
-                    })
-                });
+                    });
+                }
                 styleCache[size] = style;
             }
             return style;
         }
     });
     map.addLayer(clusters);
+
+    // Define select interaction
+    var select = new ol.interaction.Select({
+        layers: function (layer) {
+            return layer === clusters; // Only apply the interaction to the cluster layer
+        },
+        multi: false
+    });
+    map.addInteraction(select);
+
+
+    // Add listener for select event on cluster
+    select.on('select', function (event) {
+        var feature = event.selected[0]; // Get selected feature (the cluster)
+
+        if (feature) {
+            // Get the features of the cluster
+            var clusterFeatures = feature.get('features');
+            
+            // Only show the modal if the cluster contains a single item
+            if (clusterFeatures.length === 1) {
+                // Show the modal
+                var myModal = new bootstrap.Modal(document.getElementById('accidentInfoModal'), {});
+                myModal.show();
+            }
+        }
+    });
+
+    // Set up pointermove event handler
+    map.on('pointermove', function(e) {
+        var pixel = map.getEventPixel(e.originalEvent);
+        var hit = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            return true;
+        });
+        if (hit) {
+            var features = map.getFeaturesAtPixel(pixel);
+            if (features.length > 0 && features[0].get('features')) {
+                var size = features[0].get('features').length;
+                map.getTargetElement().style.cursor = size === 1 ? 'pointer' : '';
+            } else {
+                map.getTargetElement().style.cursor = '';
+            }
+        } else {
+            map.getTargetElement().style.cursor = '';
+        }
+    });
+    
 });
 
 // Zoom the map in slightly after it loads
