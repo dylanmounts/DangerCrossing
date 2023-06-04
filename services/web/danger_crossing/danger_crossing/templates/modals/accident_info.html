@@ -1,12 +1,12 @@
-<div class="modal fade" id="accidentInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="accidentInfoModal" tabindex="-1" aria-labelledby="accidentInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="accidentInfoModalLabel">Accident Info</h1>
+                <h1 class="modal-title fs-5" id="accidentInfoModalLabel"></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Here's information about the accident
+                Accident information
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -14,3 +14,77 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#accidentInfoModal').on('show.bs.modal', function (event) {
+        var accidentInfoModal = $(this);
+        var accidentId = accidentInfoModal.data("accident-id");
+        accidentInfoModal.find('.modal-title').text(`Accident ${accidentId}`);
+
+        $.get("/get_accident", { accident_id: accidentId })
+            .done(function(response) {
+                var accidentData = JSON.parse(response);
+                var tableHtml = `
+                    <table class="table table-dark">
+                        <tbody>
+                            <tr>
+                                <th>Date:</th>
+                                <td>${accidentData.accdatetime.split(' ')[0]}</td>
+                            </tr>
+                            <tr>
+                                <th>Time:</th>
+                                <td>${accidentData.accdatetime.split(' ')[1]}</td>
+                            </tr>
+                            <tr>
+                                <th>County:</th>
+                                <td>${accidentData.county}</td>
+                            </tr>
+                            <tr>
+                                <th>Location:</th>
+                                <td>${accidentData.location}</td>
+                            </tr>
+                            <tr>
+                                <th>Troop:</th>
+                                <td>${accidentData.troop}</td>
+                            </tr>
+                            <tr>
+                                <th>Vehicles:</th>
+                                <td>
+                                    <table class="table table-dark table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Direction</th>
+                                                <th>Injured</th>
+                                                <th>Injuries</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${accidentData.vehicles.map((vehicle, index) => `
+                                                <tr>
+                                                    <td>${index + 1}</td>
+                                                    <td>${vehicle.direction}</td>
+                                                    <td>${vehicle.injured !== undefined ? vehicle.injured : 0}</td>
+                                                    <td>${vehicle.injuries ? vehicle.injuries.join(', ') : 'None'}</td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Misc:</th>
+                                <td>${accidentData.misc}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+                accidentInfoModal.find('.modal-body').html(tableHtml);
+            })
+            .fail(function(error) {
+                console.error(error);
+            });
+    });
+});
+</script>

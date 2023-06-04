@@ -81,9 +81,9 @@ def process_acc_dict(acc_dict):
         acc_dict (dict): JSON dictionary of accidents
 
     Returns:
-        coord_list (list): List of coordinates to be mapped
+        coord_dict (dict): Dictionary of coordinates to be mapped
     """
-    seen_coords = {}
+    coords_dict = {}
     for acc in acc_dict:
         lat = acc_dict[acc]["lat"]
         lon = acc_dict[acc]["lon"]
@@ -105,24 +105,15 @@ def process_acc_dict(acc_dict):
         # Don't include accidents we didn't ask for.
         if not injury_found:
             continue
-        if (lon, lat) not in seen_coords:
+        if acc not in coords_dict:
             flask.session["Totals"]["All Accidents"] += 1
-            seen_coords[(lon, lat)] = [date_time]
-        else:
-            for time_check in seen_coords[(lon, lat)]:
-                # The MSHP reports some incidents multiple times. This check is to avoid duplicates.
-                if (
-                    time_check - datetime.timedelta(minutes=5)
-                    < date_time
-                    < time_check + datetime.timedelta(minutes=5)
-                ):
-                    continue
-            flask.session["Totals"]["All Accidents"] += 1
-            seen_coords[(lon, lat)].append(date_time)
+            coords_dict[acc] = {
+                "lon": lon,
+                "lat": lat,
+                "date_time": date_time,
+            }
 
-    coords_list = [coord[0] for coord in seen_coords.items()]
-
-    return coords_list
+    return coords_dict
 
 
 def process_injuries(vehicles):

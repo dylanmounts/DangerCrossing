@@ -10,8 +10,16 @@ import flask
 
 from danger_crossing import app, func
 
+
 CWD = "/usr/src/app/danger_crossing/danger_crossing/"
 
+try:
+    with open(
+        os.path.join(CWD, "acc_dict/complete_acc_dict.json"), "r", encoding="UTF-8"
+    ) as file:
+        ACC_DICT = json.load(file)
+except FileNotFoundError:
+    ACC_DICT = {}
 
 @app.route("/", methods=["POST", "GET"])
 def danger_crossing():
@@ -37,14 +45,7 @@ def danger_crossing():
     date_end_str = datetime.datetime.strftime(flask.session["date_end"], "%Y-%m-%d")
     now_str = datetime.datetime.strftime(datetime.datetime.now(), "%Y-%m-%d")
 
-    try:
-        with open(
-            os.path.join(CWD, "acc_dict/complete_acc_dict.json"), "r", encoding="UTF-8"
-        ) as file:
-            acc_dict = json.load(file)
-    except FileNotFoundError:
-        acc_dict = {}
-    coords_list = func.process_acc_dict(acc_dict)
+    coords_dict = func.process_acc_dict(ACC_DICT)
 
     # Capture session data to send to the template, but clear the session
     # to prevent unexpected behavior.
@@ -59,7 +60,7 @@ def danger_crossing():
         date_end=date_end_str,
         injury_types=injury_types,
         injury_selection=injury_selection,
-        coords_list=coords_list,
+        coords_dict=coords_dict,
         totals=totals,
     )
 
@@ -72,6 +73,15 @@ def tile_server():
     x_coord = flask.request.args.get("x_coord")
     y_coord = flask.request.args.get("y_coord")
     return func.get_tile(zoom, x_coord, y_coord)
+
+
+@app.route("/get_accident", methods=["GET"])
+def get_accident():
+    """Retrieve the accident information for the given accident id from
+    the accident dictionary."""
+    accident_id = flask.request.args.get("accident_id")
+    app.logger.info(ACC_DICT[accident_id])
+    return json.dumps(ACC_DICT[accident_id])
 
 
 if __name__ == "__main__":
