@@ -70,46 +70,50 @@ map.once('postcompose', function (e) {
             var style = styleCache[size];
             if (!style) {
                 if (size === 1) {
-                    style = new ol.style.Style({
-                        image: new ol.style.Circle({
-                            radius: 10,
-                            stroke: new ol.style.Stroke({
-                                color: '#007bff',
+                    style = [
+                        new ol.style.Style({
+                            image: new ol.style.RegularShape({
+                                points: 8,
+                                radius: 8,
+                                rotation: Math.PI / 8,
+                                stroke: new ol.style.Stroke({
+                                    color: 'rgb(255, 255, 255)',
+                                    width: .5
+                                }),
+                                fill: new ol.style.Fill({
+                                    color: 'rgb(162, 33, 20)',
+                                }),
                             }),
-                            fill: new ol.style.Fill({
-                                color: 'rgba(0, 123, 255, 0.6)',
-                            })
                         }),
-                        text: new ol.style.Text({
-                            text: "!",
-                            scale: 1,
-                            stroke: new ol.style.Stroke({
-                                width: 4
-                            }),
-                            fill: new ol.style.Fill({
-                                color: '#fff'
+                        new ol.style.Style({
+                            text: new ol.style.Text({
+                                text: "!",
+                                scale: .9,
+                                textAlign: 'center',
+                                stroke: new ol.style.Stroke({
+                                    width: 3
+                                }),
+                                fill: new ol.style.Fill({
+                                    color: 'rgb(185, 179, 170)'
+                                })
                             })
                         })
-                    });
+                    ];
                 } else {
                     style = new ol.style.Style({
                         image: new ol.style.Circle({
                             radius: 10,
                             stroke: new ol.style.Stroke({
-                                color: '#fff',
+                                color: 'rgb(232, 230, 2237)',
                             }),
-                            fill: new ol.style.Fill({
-                                color: 'rgba(255, 255, 255, 0.01)',
-                            })
                         }),
                         text: new ol.style.Text({
                             text: size.toString(),
-                            scale: 1,
                             stroke: new ol.style.Stroke({
                                 width: 4
                             }),
                             fill: new ol.style.Fill({
-                                color: '#fff'
+                                color: 'rgb(185, 179, 170)'
                             })
                         })
                     });
