@@ -1,157 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-4YCXT9WJTL">
-  </script>
-  <script>
-   window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+<head>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-4YCXT9WJTL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-4YCXT9WJTL');
-  </script>
-  <link crossorigin="anonymous" href="https://bootswatch.com/5/darkly/bootstrap.min.css" rel="stylesheet"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <meta name="description"
-    content="Traffic accident heatmap for Missouri.">
-  <meta name="keywords" content=
-    "missouri traffic accidents, missouri traffic, missouri accidents, traffic accidents heatmap, traffic heatmap">
-  <title>
-   Traffic Accident Heatmap for Missouri | Danger Crossing
-  </title>
-  <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
-  <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='img/favicon-512x512.png') }}">
-  <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/favicon-192x192.png') }}">
-  <link rel="icon" type="image/png" sizes="180x180" href="{{ url_for('static', filename='img/favicon-180x180.png') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon-16x16.png') }}">
-  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicon-180x180.png') }}">
-  <link href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" rel="stylesheet" type="text/css"/>
-  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js">
-  </script>
-  <style type="text/css">
-   .map, body, html {
-        height: 94%;
-        width: 100%;
-      }
-  </style>
+    </script>
+
+    <link 
+        rel="stylesheet" 
+        href="https://bootswatch.com/5/darkly/bootstrap.min.css" 
+        crossorigin="anonymous" 
+    />
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Traffic accident heatmap for Missouri." />
+    <meta name="keywords" content="missouri traffic accidents, missouri traffic, missouri accidents, traffic accidents heatmap, traffic heatmap" />
+
+    <title>Traffic Accident Heatmap for Missouri | Danger Crossing</title>
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" />
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='img/favicon-512x512.png') }}" />
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/favicon-192x192.png') }}" />
+    <link rel="icon" type="image/png" sizes="180x180" href="{{ url_for('static', filename='img/favicon-180x180.png') }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon-16x16.png') }}" />
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicon-180x180.png') }}" />
+
+    <link 
+        rel="stylesheet" 
+        href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" 
+        type="text/css" 
+    />
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+
+    <style type="text/css">
+        .map, body, html {
+            height: 94%;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark py-2">
-  <div class="container-fluid">
-    <form action="/" id="date-picker" method="post">
-      <fieldset>
-        <label for="start">
-        From:
-        </label>
-        <input form="date-picker" id="start" max="{{ now }}" min="2020-06-03" name="date-start" type="date" value="{{ date_start }}"/>
-        <label for="end">
-        To:
-        </label>
-        <input form="date-picker" id="end" max="{{ now }}" min="2020-06-03" name="date-end" type="date" value="{{ date_end }}"/>
-        <div aria-label="Injury type selection" class="btn-group" role="group">
-          Injuries:&nbsp;
-          {% for injury in injury_types if injury != "ALL" %}
-          <input class="btn-check" form="date-picker" id="btn{{ injury }}" name="btn{{ injury }}" type="checkbox" autocomplete="off" {% if injury in injury_selection %}checked=""{% endif %}/>
-          <label class="btn btn-outline-secondary btn-sm" for="btn{{ injury }}">{{ injury.capitalize() }}</label>
-          {% endfor %}
+    <nav class="navbar navbar-dark bg-dark py-2">
+        <div class="container-fluid">
+            <form action="/" id="date-picker" method="post">
+                <fieldset>
+                    <label for="start">From:</label>
+                    <input 
+                        form="date-picker" 
+                        id="start" 
+                        max="{{ now }}" 
+                        min="2020-06-03" 
+                        name="date-start" 
+                        type="date" 
+                        value="{{ date_start }}" 
+                    />
+                    <label for="end">To:</label>
+                    <input 
+                        form="date-picker" 
+                        id="end" 
+                        max="{{ now }}" 
+                        min="2020-06-03" 
+                        name="date-end" 
+                        type="date" 
+                        value="{{ date_end }}" 
+                    />
+
+                    <div class="btn-group" role="group" aria-label="Injury type selection">
+                        Injuries:&nbsp;
+                        {% for injury in injury_types if injury != "ALL" %}
+                            <input 
+                                class="btn-check" 
+                                form="date-picker" 
+                                id="btn{{ injury }}" 
+                                name="btn{{ injury }}" 
+                                type="checkbox" 
+                                autocomplete="off" 
+                                {% if injury in injury_selection %}checked=""{% endif %}
+                            />
+                            <label class="btn btn-outline-secondary btn-sm" for="btn{{ injury }}">{{ injury.capitalize() }}</label>
+                        {% endfor %}
+                    </div>
+
+                    <button class="btn btn-primary btn-sm rounded ms-1" form="date-picker" type="submit">Submit</button>
+                </fieldset>
+            </form>
         </div>
-        <button class="btn btn-primary btn-sm rounded ms-1" form="date-picker" type="submit">Submit</button>
-      </fieldset>
-    </form>
-  </div>
-</nav>
-<div class="map container px-4 pt-1" id="map">
-</div>
-  <div class="container px-4">
-    <div class="row">
-      <div class="col">
-        <center>
-          <small class="text-primary">
-          The heatmap reflects traffic accidents reported by the <a href="https://www.mshp.dps.missouri.gov/HP68/search.jsp">Missouri State Highway Patrol</a>
-          </small>
-        </center>
-      </div>
+    </nav>
+
+    <div id="map" class="map container px-4 pt-1"></div>
+
+    <div class="container px-4">
+        <div class="row">
+            <div class="col">
+                <center>
+                    <small class="text-primary">
+                        The heatmap reflects traffic accidents reported by the 
+                        <a href="https://www.mshp.dps.missouri.gov/HP68/search.jsp">Missouri State Highway Patrol</a>
+                    </small>
+                </center>
+            </div>
+        </div>
     </div>
-    <div class="row mt-2 py-2">
-      <div class="row">
-        <div class="col">
-          <h1 class="d-flex display-6 justify-content-center">Missouri Accidents Report</h1>
+    <div class="container px-4">
+        <div class="row mt-2 py-2">
+            <div class="row">
+                <div class="col">
+                    <h1 class="d-flex display-6 justify-content-center">Missouri Accidents Report</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="d-flex col justify-content-end">
+                    <p class="text-white-50 mb-2"><strong>Start Date: {{ date_start }}</strong></p>
+                </div>
+                <div class="d-flex col justify-content-start">
+                    <p class="text-white-50 mb-2"><strong>End Date: {{ date_end }}</strong></p>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="d-flex col justify-content-center">
+                    Accident Count: {{ totals["All Accidents"] }}
+                </div>
+            </div>
+
+            <div class="row pe-0">
+                <div class="col ps-0">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="2" scope="col">
+                                    <center>Personal Injuries</center>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set table_rows = ["Fatal", "Serious", "Moderate", "Minor"] %}
+                            {% for table_row in table_rows %}
+                                <tr class="table-dark">
+                                    <th scope="row" style="width: 50%; text-align:right">{{ table_row }}</th>
+                                    <td>{{ totals["Injuries"][table_row] }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td style="border-right: None"></td>
+                                <td style="border-left: None">{{ totals["Injuries"]["All"] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col pe-0">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="2" scope="col">
+                                    <center>Vehicle Damages</center>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set table_rows = ["Total", "Extensive", "Moderate", "Minor"] %}
+                            {% for table_row in table_rows %}
+                                <tr class="table-dark">
+                                    <th scope="row" style="width: 50%; text-align:right">{{ table_row }}</th>
+                                    <td>{{ totals["Damages"][table_row] }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td style="border-right: None"></td>
+                                <td style="border-left: None">{{ totals["Damages"]["All"] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="d-flex col justify-content-end"><p class="text-white-50 mb-2"><strong>Start Date: {{ date_start }}</strong></p></div>
-        <div class="d-flex col justify-content-start"><p class="text-white-50 mb-2"><strong>End Date: {{ date_end }}</strong></p></div>
-      </div>
-      <div class="row mb-2">
-        <div class="d-flex col justify-content-center">
-          Accident Count: {{ totals["All Accidents"] }}
-        </div>
-      </div>
-      <div class="row pe-0">
-        <div class="col ps-0">
-          <table class="table table-hover table-bordered">
-            <thead>
-              <tr>
-                <th colspan="2" scope="col">
-                  <center>Personal Injuries</center>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {% set table_rows = ["Fatal", "Serious", "Moderate", "Minor"] %}
-              {% for table_row in table_rows %}
-                <tr class="table-dark">
-                  <th scope="row" style="width: 50%; text-align:right">{{ table_row }}</th>
-                  <td>{{ totals["Injuries"][table_row] }}</td>
-                </tr>
-              {% endfor %}
-              <tr>
-                <td style="border-right: None"></td>
-                <td style="border-left: None">{{ totals["Injuries"]["All"] }}</d>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="col pe-0">
-          <table class="table table-hover table-bordered">
-            <thead>
-              <tr>
-                <th colspan="2" scope="col">
-                  <center>Vehicle Damages</center>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {% set table_rows = ["Total", "Extensive", "Moderate", "Minor"] %}
-              {% for table_row in table_rows %}
-                <tr class="table-dark">
-                  <th scope="row" style="width: 50%; text-align:right">{{ table_row }}</th>
-                  <td>{{ totals["Damages"][table_row] }}</td>
-                </tr>
-              {% endfor %}
-              <tr>
-                <td style="border-right: None"></td>
-                <td style="border-left: None">{{ totals["Damages"]["All"] }}</d>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+
+        <img 
+            src="{{ url_for('static', filename='img/danger_crossing_heatmap_thumb.png') }}" 
+            style="display:none" 
+        />
     </div>
-  <img src="{{ url_for('static', filename='img/danger_crossing_heatmap_thumb.png') }}" style="display:none" />
-  </div>
-  <div class="container px-4">
-    <div class="row">
-      <div class="col">
-        <center>
-          <small class="text-secondary">
-          Available on <a href="https://github.com/dylanmounts/dangercrossing" class="text-secondary">GitHub</a>
-          </small>
-        </center>
-      </div>
+
+    <div class="container px-4">
+        <div class="row">
+            <div class="col">
+                <center>
+                    <small class="text-secondary">
+                        Available on 
+                        <a href="https://github.com/dylanmounts/dangercrossing" class="text-secondary">GitHub</a>
+                    </small>
+                </center>
+            </div>
+        </div>
     </div>
-  </div>
-  <script type="text/javascript">
+
+    <script type="text/javascript">
       var coords_list = {{ coords_list|tojson|safe }};
       var now = "{{ now }}";
       var date_start = "{{ date_start }}";
@@ -159,11 +209,14 @@
       var injury_types = {{ injury_types|tojson|safe }};
       var injury_selection = {{ injury_selection|tojson|safe }};
       var totals = {{ totals|tojson|safe }};
-  </script>
-  <script src="{{ url_for('static', filename='js/heatmap.js') }}"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.js">
-  </script>
-  <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
-  </script>
- </body>
+    </script>
+    <script src="{{ url_for('static', filename='js/heatmap.js') }}"></script>
+
+    <script
+        crossorigin="anonymous"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz">
+    </script>
+
+</body>
 </html>
