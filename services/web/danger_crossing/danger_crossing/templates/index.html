@@ -201,8 +201,16 @@
         </div>
     </div>
 
+    <script
+        src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+        crossorigin="anonymous">
+    </script>
+
+    {% include 'modals/accident_info.html' %}
+
     <script type="text/javascript">
-      var coords_list = {{ coords_list|tojson|safe }};
+      var coords_dict = {{ coords_dict|tojson|safe }};
       var now = "{{ now }}";
       var date_start = "{{ date_start }}";
       var date_end = "{{ date_end }}";
