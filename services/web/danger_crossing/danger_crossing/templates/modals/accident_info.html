@@ -1,12 +1,64 @@
 <div class="modal fade" id="accidentInfoModal" tabindex="-1" aria-labelledby="accidentInfoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="accidentInfoModalLabel"></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Accident information
+                <table class="table table-dark" id="accidentInfoTable">
+                    <tbody>
+                        <tr>
+                            <th>Date:</th>
+                            <td id="accident-date"></td>
+                        </tr>
+                        <tr>
+                            <th>Time:</th>
+                            <td id="accident-time"></td>
+                        </tr>
+                        <tr>
+                            <th>County:</th>
+                            <td id="accident-county"></td>
+                        </tr>
+                        <tr>
+                            <th>Location:</th>
+                            <td id="accident-location"></td>
+                        </tr>
+                        <tr>
+                            <th>Troop:</th>
+                            <td id="accident-troop"></td>
+                        </tr>
+                        <tr>
+                            <th>Vehicles:</th>
+                            <td>
+                                <table class="table table-dark table-borderless" id="accident-vehicles">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Direction</th>
+                                            <th>Damage</th>
+                                            <th>Injured</th>
+                                            <th>Injuries</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="vehicle-id"></td>
+                                            <td id="vehicle-direction"></td>
+                                            <td id="vehicle-damage"></td>
+                                            <td id="vehicle-injured"></td>
+                                            <td id="vehicle-injuries"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Description:</th>
+                            <td id="accident-description"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -25,62 +77,35 @@ $(document).ready(function() {
         $.get("/get_accident", { accident_id: accidentId })
             .done(function(response) {
                 var accidentData = JSON.parse(response);
-                var tableHtml = `
-                    <table class="table table-dark">
-                        <tbody>
-                            <tr>
-                                <th>Date:</th>
-                                <td>${accidentData.accdatetime.split(' ')[0]}</td>
-                            </tr>
-                            <tr>
-                                <th>Time:</th>
-                                <td>${accidentData.accdatetime.split(' ')[1]}</td>
-                            </tr>
-                            <tr>
-                                <th>County:</th>
-                                <td>${accidentData.county}</td>
-                            </tr>
-                            <tr>
-                                <th>Location:</th>
-                                <td>${accidentData.location}</td>
-                            </tr>
-                            <tr>
-                                <th>Troop:</th>
-                                <td>${accidentData.troop}</td>
-                            </tr>
-                            <tr>
-                                <th>Vehicles:</th>
-                                <td>
-                                    <table class="table table-dark table-borderless">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Direction</th>
-                                                <th>Injured</th>
-                                                <th>Injuries</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            ${accidentData.vehicles.map((vehicle, index) => `
-                                                <tr>
-                                                    <td>${index + 1}</td>
-                                                    <td>${vehicle.direction}</td>
-                                                    <td>${vehicle.injured !== undefined ? vehicle.injured : 0}</td>
-                                                    <td>${vehicle.injuries ? vehicle.injuries.join(', ') : 'None'}</td>
-                                                </tr>
-                                            `).join('')}
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Misc:</th>
-                                <td>${accidentData.misc}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
-                accidentInfoModal.find('.modal-body').html(tableHtml);
+
+                // Set the text of the elements with the corresponding ids
+                $('#accident-date').text(accidentData.accdatetime.split(' ')[0]);
+                $('#accident-time').text(accidentData.accdatetime.split(' ')[1]);
+                $('#accident-county').text(accidentData.county);
+                $('#accident-location').text(accidentData.location);
+                $('#accident-troop').text(accidentData.troop);
+                $('#accident-description').text(accidentData.misc);
+
+                // Dynamically generate rows for the vehicles table
+                var vehicleRows = accidentData.vehicles.map((vehicle, index) => {
+                    var html = `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${vehicle.direction}</td>
+                            <td>${vehicle.damage}</td>
+                            <td>${vehicle.injured !== undefined ? vehicle.injured : 0}</td>
+                            <td>${vehicle.injuries ? vehicle.injuries.join(', ') : 'None'}</td>
+                        </tr>
+                    `;
+
+                    // Remove unnecessary indents and newlines
+                    var html = html.replace(/\n\s*/g, "");
+
+                    return html;
+                });
+
+                // Add the new rows to the vehicles table
+                $('#accident-vehicles tbody').html(vehicleRows.join(''));
             })
             .fail(function(error) {
                 console.error(error);
