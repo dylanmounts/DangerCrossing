@@ -93,7 +93,7 @@ map.once('postcompose', function(e) {
 });
 
 // Zoom the map in slightly after it loads
-map.once('postcompose', function(e) {
+map.once('rendercomplete', function(e) {
     map.getView().animate({
         zoom: map.getView().getZoom() + .55,
         duration: 2000
