@@ -13,7 +13,7 @@
 <br />
 <div align="center">
   <a href="https://dangercrossing.com">
-    <img src="https://github.com/dylanmounts/dangercrossing/blob/main/services/web/danger_crossing/danger_crossing/static/favicon-180x180.png" alt="Logo" width="90" height="90">
+    <img src="https://github.com/dylanmounts/dangercrossing/blob/main/services/web/danger_crossing/danger_crossing/static/js/favicon-180x180.png" alt="Logo" width="90" height="90">
   </a>
 
 <h3 align="center">Danger Crossing</h3>
@@ -195,5 +195,5 @@ Project Link: [https://github.com/dylanmounts/dangercrossing](https://github.com
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/dylan-mounts
-[product-logo]: https://github.com/dylanmounts/dangercrossing/blob/main/services/web/danger_crossing/danger_crossing/static/favicon-180x180.png
-[product-screenshot]: https://github.com/dylanmounts/dangercrossing/blob/main/services/web/danger_crossing/danger_crossing/static/danger_crossing_heatmap_thumb.png
+[product-logo]: https://github.com/dylanmounts/dangercrossing/blob/main/services/web/danger_crossing/danger_crossing/static/js/favicon-180x180.png
+[product-screenshot]: https://github.com/dylanmounts/dangercrossing/blob/main/services/web/danger_crossing/danger_crossing/static/js/danger_crossing_heatmap_thumb.png
