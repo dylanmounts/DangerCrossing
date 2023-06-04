@@ -111,5 +111,16 @@ $(document).ready(function() {
                 console.error(error);
             });
     });
+    $('#accidentInfoModal').on('hidden.bs.modal', function (event) {
+        var accidentInfoModal = $(this);
+        accidentInfoModal.find('.modal-title').text('');
+        $('#accident-date').text('');
+        $('#accident-time').text('');
+        $('#accident-county').text('');
+        $('#accident-location').text('');
+        $('#accident-troop').text('');
+        $('#accident-description').text('');
+        $('#accident-vehicles tbody').empty();
+    });
 });
 </script>
