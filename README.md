@@ -75,7 +75,7 @@ The project is comprised of several Docker containers which serve [distinct purp
 * [Docker](https://www.docker.com)
 
 ### Services
-The project is comprised of four separate Docker containers which serve distinct purposes. Docker Compose coordinates these containers into a single application.
+The project is comprised of five separate Docker containers which serve distinct purposes. Docker Compose coordinates these containers into a single application.
 
 #### Web
 
