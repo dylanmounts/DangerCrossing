@@ -71,6 +71,7 @@ The project is comprised of several Docker containers which serve [distinct purp
 
 * [Python](https://www.python.org)
 * [Flask](https://flask.palletsprojects.com)
+* [OpenLayers OSM](https://openlayers.org/)
 * [Bootstrap](https://getbootstrap.com)
 * [Docker](https://www.docker.com)
 
@@ -95,7 +96,7 @@ The web server used in production builds.
 
 #### Tile Server
 
-An OpenStreetMap PNG tile server built using [Overv's openstreetmap-tile-server](https://github.com/Overv/openstreetmap-tile-server/) Docker project. Relies on the `missouri_et_al.osm.pbf` extract file provided by [Protomaps](https://protomaps.com/downloads/osm).
+An OpenLayers OSM PNG tile server built using [Overv's openstreetmap-tile-server](https://github.com/Overv/openstreetmap-tile-server/) Docker project. Relies on the `missouri_et_al.osm.pbf` extract file provided by [Protomaps](https://protomaps.com/downloads/osm).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
