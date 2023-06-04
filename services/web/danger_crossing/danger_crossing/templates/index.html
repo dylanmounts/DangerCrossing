@@ -18,13 +18,13 @@
   <title>
    Traffic Accident Heatmap for Missouri | Danger Crossing
   </title>
-  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='favicon-512x512.png') }}">
-  <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='favicon-192x192.png') }}">
-  <link rel="icon" type="image/png" sizes="180x180" href="{{ url_for('static', filename='favicon-180x180.png') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
-  <link rel="apple-touch-icon" href="{{ url_for('static', filename='favicon-180x180.png') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='img/favicon-512x512.png') }}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/favicon-192x192.png') }}">
+  <link rel="icon" type="image/png" sizes="180x180" href="{{ url_for('static', filename='img/favicon-180x180.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon-16x16.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicon-180x180.png') }}">
   <link href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" rel="stylesheet" type="text/css"/>
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js">
   </script>
@@ -232,7 +232,7 @@
         </div>
       </div>
     </div>
-  <img src="/static/danger_crossing_heatmap_thumb.png" style="display:none" />
+  <img src="{{ url_for('static', filename='img/danger_crossing_heatmap_thumb.png') }}" style="display:none" />
   </div>
   <div class="container px-4">
     <div class="row">
