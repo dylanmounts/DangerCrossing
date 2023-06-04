@@ -71,10 +71,8 @@ map.once('postcompose', function (e) {
             if (!style) {
                 if (size === 1) {
                     style = new ol.style.Style({
-                        image: new ol.style.RegularShape({
-                            points: 4,
+                        image: new ol.style.Circle({
                             radius: 10,
-                            angle: Math.PI / 4,
                             stroke: new ol.style.Stroke({
                                 color: '#007bff',
                             }),
@@ -83,7 +81,7 @@ map.once('postcompose', function (e) {
                             })
                         }),
                         text: new ol.style.Text({
-                            text: size.toString(),
+                            text: "!",
                             scale: 1,
                             stroke: new ol.style.Stroke({
                                 width: 4
