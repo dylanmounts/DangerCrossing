@@ -1,0 +1,43 @@
+<div class="modal fade" id="accidentClusterModal" tabindex="-1" aria-labelledby="accidentClusterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="accidentClusterModalLabel">Accident Cluster</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush list-group-item-action" id="accident-list"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#accidentClusterModal').on('show.bs.modal', function (event) {
+        var accidentClusterModal = $(this);
+        var clusterFeatures = accidentClusterModal.data('cluster-features');
+        var accidentIds = clusterFeatures.map(feature => feature.get('accident_id'));
+
+        var accidentListItems = accidentIds.map(id => `<li class="list-group-item list-group-item-action accident-item" data-id="${id}">Accident ${id}</li>`);
+
+        // Add the list items to the accident list
+        $('#accident-list').html(accidentListItems.join(''));
+
+        // Handle click events on the accident list items
+        $('.accident-item').click(function() {
+            var accidentId = $(this).data('id');
+
+            // Hide the cluster modal and show the info modal for the selected accident
+            accidentClusterModal.modal('hide');
+            $('#accidentInfoModal')
+                .data('accident-id', accidentId)
+                .data('from-cluster-modal', true)
+                .modal('show');
+        });
+    });
+});
+</script>
