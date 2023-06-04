@@ -62,100 +62,6 @@
 </nav>
 <div class="map container px-4 pt-1" id="map">
 </div>
-<script type="text/javascript">
-   var map = new ol.Map({
-        target: 'map',
-        controls: ol.control.defaults().extend([new ol.control.FullScreen()]),
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.XYZ({
-              attributions: [
-                ol.source.OSM.ATTRIBUTION,
-              ],
-              url: "/tile?zoom={z}&x_coord={x}&y_coord={y}.png"
-            })
-          })
-        ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([-92.89, 38.525]),
-          zoom: 6.45
-        })
-      });
-      var data = new ol.source.Vector();
-      var coord = ol.proj.fromLonLat([-94.206868, 37.1826835]);
-      var lonLat = new ol.geom.Point(coord);
-      var pointFeature = new ol.Feature({
-        geometry: lonLat
-      });
-      {% for coord in coords_list %}
-      data.addFeature(pointFeature);
-      var coord = ol.proj.fromLonLat([{{ coord[0] }}, {{ coord[1] }}]);
-      var lonLat = new ol.geom.Point(coord);
-      var pointFeature = new ol.Feature({
-        geometry: lonLat
-      });
-      {% endfor %}
-      heatMapLayer = new ol.layer.Heatmap({
-        source: data,
-        opacity: 0.45,
-        blur: 20,
-        radius: 10
-      });
-      map.addLayer(heatMapLayer);
-      var clusterSource = new ol.source.Cluster({
-          distance: 60,
-          threshold: 2,
-          source: data
-      });
-      var interactions = map.getInteractions().getArray();
-      var pinchRotateInteraction = interactions.filter(function(interaction) {
-        return interaction instanceof ol.interaction.PinchRotate;
-      })[0];
-      pinchRotateInteraction.setActive(false);
-      map.once('postcompose',function(e){
-        document.querySelector('canvas').style.filter="invert(90%)";
-        var styleCache = {};
-        var clusters = new ol.layer.Vector({
-            source: clusterSource,
-            style: function (feature) {
-                var size = feature.get('features').length;
-                var style = styleCache[size];
-                if (!style) {
-                  style = new ol.style.Style({
-                    image: new ol.style.Circle({  
-                      radius: 9,
-                      stroke: new ol.style.Stroke({
-                        color: '#fff',
-                      }),
-                      fill: new ol.style.Fill({
-                        color: 'rgba(255, 255, 255, 0.01)',
-                      })
-                    }),
-                    text: new ol.style.Text({
-                      text: size.toString(),
-                      scale: 0.75,
-                      stroke: new ol.style.Stroke({
-                        width: 4
-                      }),
-                      fill: new ol.style.Fill({
-                        color: '#fff'
-                      })
-                    })
-                  });
-                styleCache[size] = style;
-                }
-              return style;
-            }
-        });
-        map.addLayer(clusters);
-      });
-      map.once('postcompose', function(e) {
-        map.getView().animate({
-          zoom: map.getView().getZoom() + .55,
-          duration: 2000
-        });
-      });
-  </script>
   <div class="container px-4">
     <div class="row">
       <div class="col">
@@ -245,6 +151,16 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+      var coords_list = {{ coords_list|tojson|safe }};
+      var now = "{{ now }}";
+      var date_start = "{{ date_start }}";
+      var date_end = "{{ date_end }}";
+      var injury_types = {{ injury_types|tojson|safe }};
+      var injury_selection = {{ injury_selection|tojson|safe }};
+      var totals = {{ totals|tojson|safe }};
+  </script>
+  <script src="{{ url_for('static', filename='js/heatmap.js') }}"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.js">
   </script>
   <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
