@@ -111,6 +111,7 @@ function clusterPoints(map, data) {
                             }),
                             text: new ol.style.Text({
                                 text: size.toString(),
+                                textAlign: 'center',
                                 stroke: new ol.style.Stroke({
                                     width: 4
                                 }),
@@ -144,11 +145,19 @@ function clusterPoints(map, data) {
                 // Get the features of the cluster
                 var clusterFeatures = feature.get('features');
 
-                // Only show the modal if the cluster contains a single item
+                // Determine which modal to show based of how many features are in the cluster
                 if (clusterFeatures.length === 1) {
                     selectedFeature = feature;
                     var accident_id = clusterFeatures[0].get("accident_id");
-                    $('#accidentInfoModal').data('accident-id', accident_id).modal('show');
+                    $('#accidentInfoModal')
+                        .data('accident-id', accident_id)
+                        .data('from-cluster-modal', false)
+                        .modal('show');
+                } else {
+                    selectedFeature = feature;
+                    $('#accidentClusterModal')
+                        .data('cluster-features', clusterFeatures)
+                        .modal('show');
                 }
             }
         });
