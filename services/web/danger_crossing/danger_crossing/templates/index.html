@@ -15,6 +15,7 @@
         crossorigin="anonymous" 
     />
 
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Traffic accident heatmap for Missouri." />
     <meta name="keywords" content="missouri traffic accidents, missouri traffic, missouri accidents, traffic accidents heatmap, traffic heatmap" />
@@ -210,12 +211,11 @@
       var totals = {{ totals|tojson|safe }};
     </script>
     <script src="{{ url_for('static', filename='js/heatmap.js') }}"></script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+ 
     <script
         crossorigin="anonymous"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz">
     </script>
 
 </body>
