@@ -85,7 +85,7 @@ The Flask application responsible for rendering the heatmap and governing the us
 
 A crontab which runs the `danger_maker.py` script at some predetermined interval (currently set to once every 3 hours). The `danger_maker.py` script is responsible for gathering and saving new accidents from the MSHP's website.
 
-### Redis
+#### Redis
 
 A caching server to store and retrieve the dictionary of accident information.
 
