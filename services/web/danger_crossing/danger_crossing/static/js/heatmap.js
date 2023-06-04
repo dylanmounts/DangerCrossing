@@ -51,8 +51,8 @@ pinchRotateInteraction.setActive(false);
 
 // Define the clustering parameters
 var clusterSource = new ol.source.Cluster({
-    distance: 40,
-    threshold: 3,
+    distance: 30,
+    threshold: 5,
     source: data
 });
 
@@ -84,7 +84,7 @@ map.once('postcompose', function (e) {
                         }),
                         text: new ol.style.Text({
                             text: size.toString(),
-                            scale: 0.75,
+                            scale: 1,
                             stroke: new ol.style.Stroke({
                                 width: 4
                             }),
@@ -106,7 +106,7 @@ map.once('postcompose', function (e) {
                         }),
                         text: new ol.style.Text({
                             text: size.toString(),
-                            scale: 0.75,
+                            scale: 1,
                             stroke: new ol.style.Stroke({
                                 width: 4
                             }),
