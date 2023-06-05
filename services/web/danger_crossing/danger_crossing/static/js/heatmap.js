@@ -194,6 +194,13 @@ function clusterPoints(map, data) {
                 selectedFeature = null;
             }
         });
+        $('#accidentClusterModal').on('hidden.bs.modal', function () {
+            if (selectedFeature) {
+                // Unselect the selected cluster
+                clusters.getSource().refresh();
+                selectedFeature = null;
+            }
+        });
 
         // Event handler for when the modal backdrop is clicked
         $('#accidentInfoModal').on('click', function (e) {
