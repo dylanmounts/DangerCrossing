@@ -21,6 +21,9 @@ $(document).ready(function() {
         var accidentClusterModal = $(this);
         var clusterFeatures = accidentClusterModal.data('cluster-features');
 
+        // Sort clusterFeatures by date_time
+        clusterFeatures.sort((a, b) => new Date(b.get('date_time')) - new Date(a.get('date_time')));
+
         var accidentListItems = clusterFeatures.map(feature => `
             <li class="list-group-item list-group-item-action accident-item" data-id="${feature.get('accident_id')}">
                 <div class="container-fluid">
