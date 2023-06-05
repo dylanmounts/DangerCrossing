@@ -52,6 +52,11 @@ def get_accident():
 
 @app.route("/get_map", methods=["POST"])
 def get_map():
+    """Generate a heat map based on the current session data.
+
+    Returns:
+        dict: A dictionary containing processed accident data.
+    """
     func.init_totals()
     func.set_injury_info()
     func.set_date_info()
@@ -70,6 +75,11 @@ def tile_server():
 
 @app.route("/update_report", methods=["POST"])
 def update_report():
+    """Update the accidents report based on the current session data.
+
+    Returns:
+        dict: A dictionary containing the updated report information.
+    """
     return func.get_report()
 
 
