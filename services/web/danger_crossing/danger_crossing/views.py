@@ -1,6 +1,7 @@
 """Views module for the Danger Crossing app.
 
-Requires the associated func.py module."""
+Defines the routes and associated request handling logic.
+"""
 
 import datetime
 import json

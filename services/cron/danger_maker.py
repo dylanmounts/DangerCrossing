@@ -4,12 +4,11 @@ This script scrapes the first page of accidents from the Missouri State
 Highway Patrol's (MSHP) website and stores the results in a JSON
 dictionary. If this dictionary already exists, the new results will be
 appended to it, otherwise a new file will be created. The resulting
-acc_dict.json file is where the Danger Crossing heatmap gets its data.
+acc_dict.json file is then cached on a Redis server, allowing the
+Danger Crossing heatmap to retrieve it.
 
 The script is intended to run as a crontab at some reasonable increment
-to gather new accidents without impacting the MSHP's website. It
-requires that `beautifulsoup4` and `requests` be installed within the
-Python environment that runs the script.
+to gather new accidents without impacting the MSHP's website.
 """
 
 import datetime
