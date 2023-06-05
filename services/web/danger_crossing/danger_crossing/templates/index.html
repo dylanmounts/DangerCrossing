@@ -126,81 +126,6 @@
             </div>
         </div>
     </div>
-    <div class="container px-4" id="accidents-report">
-        <div class="row mt-2 py-2">
-            <div class="row">
-                <div class="col">
-                    <h1 class="d-flex display-6 justify-content-center">Missouri Accidents Report</h1>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="d-flex col justify-content-end">
-                    <p class="text-white-50 mb-2" id="report-start-date"><strong>Start Date: {{ date_start }}</strong></p>
-                </div>
-                <div class="d-flex col justify-content-start">
-                    <p class="text-white-50 mb-2" id="report-end-date"><strong>End Date: {{ date_end }}</strong></p>
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <div class="d-flex col justify-content-center" id="report-accident-count">
-                    Accident Count: {{ totals["All Accidents"] }}
-                </div>
-            </div>
-
-            <div class="row pe-0">
-                <div class="col ps-0">
-                    <table class="table table-hover table-bordered">
-                        <thead>
-                            <tr>
-                                <th colspan="2" scope="col">
-                                    <center>Personal Injuries</center>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% set table_rows = ["Fatal", "Serious", "Moderate", "Minor"] %}
-                            {% for table_row in table_rows %}
-                                <tr class="table-dark">
-                                    <th scope="row" style="width: 50%; text-align:right">{{ table_row }}</th>
-                                    <td  id="report-{{ table_row }}-count">{{ totals["Injuries"][table_row] }}</td>
-                                </tr>
-                            {% endfor %}
-                            <tr>
-                                <td style="border-right: None"></td>
-                                <td style="border-left: None" id="report-total-injuries">{{ totals["Injuries"]["All"] }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="col pe-0">
-                    <table class="table table-hover table-bordered">
-                        <thead>
-                            <tr>
-                                <th colspan="2" scope="col">
-                                    <center>Vehicle Damages</center>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% set table_rows = ["Total", "Extensive", "Moderate", "Minor"] %}
-                            {% for table_row in table_rows %}
-                                <tr class="table-dark">
-                                    <th scope="row" style="width: 50%; text-align:right">{{ table_row }}</th>
-                                    <td id="report-{{ table_row }}-count">{{ totals["Damages"][table_row] }}</td>
-                                </tr>
-                            {% endfor %}
-                            <tr>
-                                <td style="border-right: None"></td>
-                                <td style="border-left: None" id="report-total-damages">{{ totals["Damages"]["All"] }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
         <img 
             src="{{ url_for('static', filename='img/danger_crossing_heatmap_thumb.png') }}" 
@@ -208,7 +133,7 @@
         />
     </div>
 
-    <div class="container px-4">
+    <div class="container pt-4 px-4">
         <div class="row">
             <div class="col">
                 <center>
@@ -243,7 +168,6 @@
         var date_end = "{{ date_end }}";
         var injury_types = {{ injury_types|tojson|safe }};
         var injury_selection = {{ injury_selection|tojson|safe }};
-        var totals = {{ totals|tojson|safe }};
 
         if (!localStorage.getItem('firstVisit')) {
             // Show the intro test if the user hasn't visited before

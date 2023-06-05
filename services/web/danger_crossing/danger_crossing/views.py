@@ -14,7 +14,6 @@ from danger_crossing import app, func
 @app.route("/", methods=["GET"])
 def danger_crossing():
     """Return the heatmap template with the user's selected data."""
-    func.init_totals()
     func.set_injury_info()
     func.set_date_info()
 
@@ -27,7 +26,6 @@ def danger_crossing():
     # Capture session data to send to the template, but clear the session
     # to prevent unexpected behavior.
     injury_selection = flask.session["injury_selection"]
-    totals = flask.session["Totals"]
     flask.session.clear()
 
     return flask.render_template(
@@ -38,7 +36,6 @@ def danger_crossing():
         injury_types=func.INJURY_TYPES,
         injury_selection=injury_selection,
         coords_dict=coords_dict,
-        totals=totals,
     )
 
 
@@ -57,7 +54,6 @@ def get_map():
     Returns:
         dict: A dictionary containing processed accident data.
     """
-    func.init_totals()
     func.set_injury_info()
     func.set_date_info()
     return func.process_acc_dict(func.get_acc_dict())
