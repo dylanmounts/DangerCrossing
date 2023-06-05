@@ -9,8 +9,10 @@ the associated Danger Maker module handled by the cron service.
 import secrets
 
 import flask
+import redis
 
 app = flask.Flask(__name__)
 app.secret_key = secrets.token_hex()
+pool = redis.ConnectionPool(host='redis', port=6379, db=0)
 
 from danger_crossing import views
