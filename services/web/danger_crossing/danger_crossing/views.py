@@ -68,5 +68,10 @@ def tile_server():
     return func.get_tile(zoom, x_coord, y_coord)
 
 
+@app.route("/update_report", methods=["POST"])
+def update_report():
+    return func.get_report()
+
+
 if __name__ == "__main__":
     app.run()
