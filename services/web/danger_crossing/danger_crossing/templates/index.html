@@ -126,7 +126,7 @@
             </div>
         </div>
     </div>
-    <div class="container px-4">
+    <div class="container px-4" id="accidents-report">
         <div class="row mt-2 py-2">
             <div class="row">
                 <div class="col">
@@ -136,15 +136,15 @@
 
             <div class="row">
                 <div class="d-flex col justify-content-end">
-                    <p class="text-white-50 mb-2"><strong>Start Date: {{ date_start }}</strong></p>
+                    <p class="text-white-50 mb-2" id="report-start-date"><strong>Start Date: {{ date_start }}</strong></p>
                 </div>
                 <div class="d-flex col justify-content-start">
-                    <p class="text-white-50 mb-2"><strong>End Date: {{ date_end }}</strong></p>
+                    <p class="text-white-50 mb-2" id="report-end-date"><strong>End Date: {{ date_end }}</strong></p>
                 </div>
             </div>
 
             <div class="row mb-2">
-                <div class="d-flex col justify-content-center">
+                <div class="d-flex col justify-content-center" id="report-accident-count">
                     Accident Count: {{ totals["All Accidents"] }}
                 </div>
             </div>
@@ -164,12 +164,12 @@
                             {% for table_row in table_rows %}
                                 <tr class="table-dark">
                                     <th scope="row" style="width: 50%; text-align:right">{{ table_row }}</th>
-                                    <td>{{ totals["Injuries"][table_row] }}</td>
+                                    <td  id="report-{{ table_row }}-count">{{ totals["Injuries"][table_row] }}</td>
                                 </tr>
                             {% endfor %}
                             <tr>
                                 <td style="border-right: None"></td>
-                                <td style="border-left: None">{{ totals["Injuries"]["All"] }}</td>
+                                <td style="border-left: None" id="report-total-injuries">{{ totals["Injuries"]["All"] }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -189,12 +189,12 @@
                             {% for table_row in table_rows %}
                                 <tr class="table-dark">
                                     <th scope="row" style="width: 50%; text-align:right">{{ table_row }}</th>
-                                    <td>{{ totals["Damages"][table_row] }}</td>
+                                    <td id="report-{{ table_row }}-count">{{ totals["Damages"][table_row] }}</td>
                                 </tr>
                             {% endfor %}
                             <tr>
                                 <td style="border-right: None"></td>
-                                <td style="border-left: None">{{ totals["Damages"]["All"] }}</td>
+                                <td style="border-left: None" id="report-total-damages">{{ totals["Damages"]["All"] }}</td>
                             </tr>
                         </tbody>
                     </table>

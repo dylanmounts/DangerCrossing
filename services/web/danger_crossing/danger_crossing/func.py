@@ -44,30 +44,6 @@ def get_acc_dict():
         return {}
 
 
-def get_redis():
-    """Opens a new Redis connection if there is none yet for the
-    current application context.
-    """
-    if 'redis' not in flask.g:
-        flask.g.redis = redis.Redis(connection_pool=pool)
-    return flask.g.redis
-
-
-def get_tile(zoom, x_coord, y_coord):
-    """Retrieves the requested tile from the tile server
-
-    Args:
-        zoom (str): Zoom level of the tile.
-        x_coord (str): X-coordinate of the tile.
-        y_coord (str): Y-coordinate of the tile.
-    """
-    tile_server_url = "http://tile_server/tile"
-    response = requests.get(
-        os.path.join(tile_server_url, zoom, x_coord, y_coord), stream=True
-    )
-    return response.raw
-
-
 def get_date_times(form):
     """Pull the start and end time from a Flask request form, and return them
     as datetime objects.
@@ -87,6 +63,58 @@ def get_date_times(form):
         date_end = datetime.datetime.now()
         date_start = date_end - datetime.timedelta(days=365)
     return date_start, date_end
+
+
+def get_redis():
+    """Opens a new Redis connection if there is none yet for the
+    current application context.
+    """
+    if 'redis' not in flask.g:
+        flask.g.redis = redis.Redis(connection_pool=pool)
+    return flask.g.redis
+
+
+def get_report():
+    """Generate an accident report based on the current session data.
+
+    Returns:
+        dict: A dictionary containing the report information.
+    """
+    return {
+        "report_start_date": datetime.datetime.strftime(
+            flask.session["date_start"], "%Y-%m-%d"),
+        "report_end_date": datetime.datetime.strftime(
+            flask.session["date_end"], "%Y-%m-%d"),
+        "report_totals": flask.session["Totals"],
+    }
+
+
+def get_tile(zoom, x_coord, y_coord):
+    """Retrieves the requested tile from the tile server
+
+    Args:
+        zoom (str): Zoom level of the tile.
+        x_coord (str): X-coordinate of the tile.
+        y_coord (str): Y-coordinate of the tile.
+    """
+    tile_server_url = "http://tile_server/tile"
+    response = requests.get(
+        os.path.join(tile_server_url, zoom, x_coord, y_coord), stream=True
+    )
+    return response.raw
+
+
+def init_totals():
+    """Initialize a session variable to keep track of totals.
+
+    This function initializes the flask session variable "Totals" which
+    contains total counts for each accident, injury, and damage type.
+    """
+    flask.session["Totals"] = {
+        "All Accidents": 0,
+        "Injuries": {injury.capitalize(): 0 for injury in INJURY_TYPES},
+        "Damages": {damage.capitalize(): 0 for damage in DAMAGE_TYPES},
+    }
 
 
 def is_time_between(begin_time, end_time, check_time=datetime.datetime.now()):
@@ -213,19 +241,6 @@ def process_damages(vehicle):
         return
     flask.session["Totals"]["Damages"]["All"] += 1
     flask.session["Totals"]["Damages"][damage.capitalize()] += 1
-
-
-def init_totals():
-    """Initialize a session variable to keep track of totals.
-
-    This function initializes the flask session variable "Totals" which
-    contains total counts for each accident, injury, and damage type.
-    """
-    flask.session["Totals"] = {
-        "All Accidents": 0,
-        "Injuries": {injury.capitalize(): 0 for injury in INJURY_TYPES},
-        "Damages": {damage.capitalize(): 0 for damage in DAMAGE_TYPES},
-    }
 
 
 def set_injury_info():
