@@ -23,9 +23,11 @@ function addFeatures(data, coords_dict) {
     for (let [accident_id, accident_data] of Object.entries(coords_dict)) {
         let coord = ol.proj.fromLonLat([accident_data.lon, accident_data.lat]);
         let lonLat = new ol.geom.Point(coord);
+        let dateTime = accident_data.date_time
         let pointFeature = new ol.Feature({
             geometry: lonLat,
-            accident_id: accident_id
+            accident_id: accident_id,
+            date_time: dateTime
         });
         data.addFeature(pointFeature);
     }
