@@ -24,9 +24,9 @@ $(document).ready(function() {
         var accidentListItems = clusterFeatures.map(feature => `
             <li class="list-group-item list-group-item-action accident-item" data-id="${feature.get('accident_id')}">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-6">Accident ${feature.get('accident_id')}</div>
-                        <div class="col-6">${
+                    <div class="d-flex row justify-content-around">
+                        <div class="col-auto">Accident ${feature.get('accident_id')}</div>
+                        <div class="col-auto">${
                             new Date(feature.get('date_time')).toLocaleString('en-US', {
                                 year: 'numeric',
                                 month: '2-digit',
