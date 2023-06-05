@@ -10,10 +10,16 @@ import flask
 import requests
 import redis
 
-from danger_crossing import app
+from danger_crossing import app, pool
 
 
-REDIS = redis.Redis(host='redis', port=6379, db=0)
+@app.teardown_appcontext
+def close_redis(e=None):
+    """Closes the Redis connection when tearing down the app context."""
+    redis = flask.g.pop('redis', None)
+
+    if redis is not None:
+        redis.connection_pool.disconnect()
 
 
 def get_acc_dict():
@@ -24,13 +30,24 @@ def get_acc_dict():
         found or a Redis error occurs, it returns an empty dictionary
     """
     try:
-        acc_dict = REDIS.get('acc_dict')
+        redis = get_redis()
+        acc_dict = redis.get('acc_dict')
+        app.logger.info(acc_dict)
         if acc_dict is None:
             return {}
         else:
             return json.loads(acc_dict)
     except redis.RedisError:
         return {}
+
+
+def get_redis():
+    """Opens a new Redis connection if there is none yet for the
+    current application context.
+    """
+    if 'redis' not in flask.g:
+        flask.g.redis = redis.Redis(connection_pool=pool)
+    return flask.g.redis
 
 
 def get_tile(zoom, x_coord, y_coord):
