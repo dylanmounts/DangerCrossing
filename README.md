@@ -1,4 +1,4 @@
-# dangercrossing
+# DangerCrossing
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
@@ -12,8 +12,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://dangercrossing.com">
-    <img src="https://github.com/dylanmounts/dangercrossing/blob/main/services/web/danger_crossing/danger_crossing/static/img/favicon-180x180.png" alt="Logo" width="90" height="90">
+  <a href="https://DangerCrossing.com">
+    <img src="https://github.com/dylanmounts/DangerCrossing/blob/main/services/web/danger_crossing/danger_crossing/static/img/favicon-180x180.png" alt="Logo" width="90" height="90">
   </a>
 
 <h3 align="center">Danger Crossing</h3>
@@ -21,7 +21,7 @@
   <p align="center">
     Traffic accident heatmap reflecting accidents reported by the Missouri State Highway Patrol.
     <br />
-    <a href="https://dangercrossing.com"><strong>https://dangercrossing.com</strong></a>
+    <a href="https://DangerCrossing.com"><strong>https://DangerCrossing.com</strong></a>
   </p>
 </div>
 
@@ -57,7 +57,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About
 
-[![Danger Crossing Screen Shot][product-screenshot]](https://dangercrossing.com)
+[![Danger Crossing Screen Shot][product-screenshot]](https://DangerCrossing.com)
 
 The Missouri State Highway Patrol (MSHP) publishes their [accidents reports](https://www.mshp.dps.missouri.gov/HP68/search.jsp) online. Most of these reports contain the longitude and latitude coordinates of the accident. This project gathers accident information from the MSHP's website and displays it on an interactive heatmap which can be viewed in the user's browser.
 
@@ -117,11 +117,11 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
     ```sh
-    git clone https://github.com/dylanmounts/dangercrossing.git
+    git clone https://github.com/dylanmounts/DangerCrossing.git
     ```
 2. Navigate to the repo directory
     ```sh
-    cd dangercrossing
+    cd DangerCrossing
     ```
 3. Verify the PBF extract was downloaded
    ```sh
@@ -177,7 +177,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Dylan Mounts - dmounts@gmail.com
 
-Project Link: [https://github.com/dylanmounts/dangercrossing](https://github.com/dylanmounts/dangercrossing)
+Project Link: [https://github.com/dylanmounts/DangerCrossing](https://github.com/dylanmounts/DangerCrossing)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -200,5 +200,5 @@ Project Link: [https://github.com/dylanmounts/dangercrossing](https://github.com
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/dylan-mounts
-[product-logo]: https://github.com/dylanmounts/dangercrossing/blob/main/services/web/danger_crossing/danger_crossing/static/img/favicon-180x180.png
-[product-screenshot]: https://github.com/dylanmounts/dangercrossing/blob/main/services/web/danger_crossing/danger_crossing/static/img/danger_crossing_heatmap_thumb.png
+[product-logo]: https://github.com/dylanmounts/DangerCrossing/blob/main/services/web/danger_crossing/danger_crossing/static/img/favicon-180x180.png
+[product-screenshot]: https://github.com/dylanmounts/DangerCrossing/blob/main/services/web/danger_crossing/danger_crossing/static/img/danger_crossing_heatmap_thumb.png

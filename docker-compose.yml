@@ -31,7 +31,10 @@ services:
     command: gunicorn --bind 0.0.0.0:5000 danger_crossing:app
 
   nginx:
-    build: ./services/nginx
+    build: 
+      context: ./services/nginx
+      args:
+        SELF_SIGNED_SSL_CERT: 1
     container_name: danger_crossing_nginx
     ports:
       - 80:80
@@ -42,7 +45,6 @@ services:
     depends_on:
       - web
     environment:
-      - SELF_SIGNED_SSL_CERT=1
       - TZ=America/Chicago
     restart: unless-stopped
 
