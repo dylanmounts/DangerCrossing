@@ -108,6 +108,9 @@ function clusterPoints(map, data) {
                                 stroke: new ol.style.Stroke({
                                     color: 'rgb(232, 230, 2237)',
                                 }),
+                                fill: new ol.style.Fill({
+                                    color: 'rgba(255, 255, 255, .01)'
+                                })
                             }),
                             text: new ol.style.Text({
                                 text: size.toString(),
@@ -172,7 +175,7 @@ function clusterPoints(map, data) {
                 var features = map.getFeaturesAtPixel(pixel);
                 if (features.length > 0 && features[0].get('features')) {
                     var size = features[0].get('features').length;
-                    map.getTargetElement().style.cursor = size === 1 ? 'pointer' : '';
+                    map.getTargetElement().style.cursor = 'pointer';
                 } else {
                     map.getTargetElement().style.cursor = '';
                 }
