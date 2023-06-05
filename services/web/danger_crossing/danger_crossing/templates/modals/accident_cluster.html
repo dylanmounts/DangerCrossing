@@ -20,9 +20,17 @@ $(document).ready(function() {
     $('#accidentClusterModal').on('show.bs.modal', function (event) {
         var accidentClusterModal = $(this);
         var clusterFeatures = accidentClusterModal.data('cluster-features');
-        var accidentIds = clusterFeatures.map(feature => feature.get('accident_id'));
 
-        var accidentListItems = accidentIds.map(id => `<li class="list-group-item list-group-item-action accident-item" data-id="${id}">Accident ${id}</li>`);
+        var accidentListItems = clusterFeatures.map(feature => `
+            <li class="list-group-item list-group-item-action accident-item" data-id="${feature.get('accident_id')}">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">Accident: ${feature.get('accident_id')}</div>
+                        <div class="col-6">${new Date(feature.get('date_time')).toLocaleString()}</div>
+                    </div>
+                </div>
+            </li>`
+        );
 
         // Add the list items to the accident list
         $('#accident-list').html(accidentListItems.join(''));
