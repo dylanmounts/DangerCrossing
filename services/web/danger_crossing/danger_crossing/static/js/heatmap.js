@@ -233,30 +233,6 @@ class MapManager {
             $.post("/get_map", formData)
                 .done(function(response) {
                     _this.addFeatures(response);
-                    $.post("/update_report")
-                        .done(function(reportResponse) {
-                            console.log(reportResponse);
-                            document.getElementById("report-accident-count").innerText = `Accident Count: ${reportResponse['report_totals']['All Accidents']}`;
-                            document.getElementById("report-start-date").innerText = `Start Date: ${reportResponse['report_start_date']}`;
-                            document.getElementById("report-end-date").innerText = `End Date: ${reportResponse['report_end_date']}`;
-    
-                            // Personal Injuries table
-                            const injuries = ["Fatal", "Serious", "Moderate", "Minor"];
-                            injuries.forEach(injury => {
-                                document.getElementById(`report-${injury}-count`).innerText = `${reportResponse['report_totals']['Injuries'][injury]}`;
-                            });
-                            document.getElementById("report-total-injuries").innerText = `${reportResponse['report_totals']['Injuries']['All']}`;
-    
-                            // Vehicle Damages table
-                            const damages = ["Total", "Extensive", "Moderate", "Minor"];
-                            damages.forEach(damage => {
-                                document.getElementById(`report-${damage}-count`).innerText = `${reportResponse['report_totals']['Damages'][damage]}`;
-                            });
-                            document.getElementById("report-total-damages").innerText = `${reportResponse['report_totals']['Damages']['All']}`;
-                        })
-                        .fail(function() {
-                            console.error("Error while updating report");
-                        });
                 })
                 .fail(function() {
                     console.error("Error while updating map");

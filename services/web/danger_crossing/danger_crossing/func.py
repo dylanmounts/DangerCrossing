@@ -74,21 +74,6 @@ def get_redis():
     return flask.g.redis
 
 
-def get_report():
-    """Generate an accident report based on the current session data.
-
-    Returns:
-        dict: A dictionary containing the report information.
-    """
-    return {
-        "report_start_date": datetime.datetime.strftime(
-            flask.session["date_start"], "%Y-%m-%d"),
-        "report_end_date": datetime.datetime.strftime(
-            flask.session["date_end"], "%Y-%m-%d"),
-        "report_totals": flask.session["Totals"],
-    }
-
-
 def get_tile(zoom, x_coord, y_coord):
     """Retrieves the requested tile from the tile server
 
@@ -102,19 +87,6 @@ def get_tile(zoom, x_coord, y_coord):
         os.path.join(tile_server_url, zoom, x_coord, y_coord), stream=True
     )
     return response.raw
-
-
-def init_totals():
-    """Initialize a session variable to keep track of totals.
-
-    This function initializes the flask session variable "Totals" which
-    contains total counts for each accident, injury, and damage type.
-    """
-    flask.session["Totals"] = {
-        "All Accidents": 0,
-        "Injuries": {injury.capitalize(): 0 for injury in INJURY_TYPES},
-        "Damages": {damage.capitalize(): 0 for damage in DAMAGE_TYPES},
-    }
 
 
 def is_time_between(begin_time, end_time, check_time=datetime.datetime.now()):
@@ -180,7 +152,6 @@ def process_acc_dict(acc_dict):
         if not injury_found:
             continue
         if acc not in coords_dict:
-            flask.session["Totals"]["All Accidents"] += 1
             coords_dict[acc] = {
                 "lon": lon,
                 "lat": lat,
@@ -208,19 +179,10 @@ def process_injuries(vehicles):
         try:
             for injury in vehicle["injuries"]:
                 if injury in flask.session["injury_selection"]:
-                    flask.session["Totals"]["Injuries"]["All"] += 1
                     injury_found = True
                     damage_found = True
                 else:
                     continue
-                if injury == "FATAL":
-                    flask.session["Totals"]["Injuries"]["Fatal"] += 1
-                elif injury == "SERIOUS":
-                    flask.session["Totals"]["Injuries"]["Serious"] += 1
-                elif injury == "MODERATE":
-                    flask.session["Totals"]["Injuries"]["Moderate"] += 1
-                elif injury == "MINOR":
-                    flask.session["Totals"]["Injuries"]["Minor"] += 1
         except KeyError:
             pass
         if damage_found:
@@ -235,12 +197,9 @@ def process_damages(vehicle):
         vehicle (dict): Representation of the vehicle as a dictionary
     """
     damage_types = ["MINOR", "MODERATE", "EXTENSIVE", "TOTAL"]
-    damage = vehicle["damage"]
     # The MSHP rarely reports damages as None. We ignore those.
-    if damage not in damage_types:
+    if vehicle["damage"] not in damage_types:
         return
-    flask.session["Totals"]["Damages"]["All"] += 1
-    flask.session["Totals"]["Damages"][damage.capitalize()] += 1
 
 
 def set_injury_info():
