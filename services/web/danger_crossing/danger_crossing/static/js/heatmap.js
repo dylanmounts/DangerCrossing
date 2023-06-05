@@ -226,9 +226,18 @@ class MapManager {
     }
     submitForm() {
         var $form = $("#date-picker");
+        var $submitBtn = $form.find("button[type='submit']");
         var _this = this;
+    
         $form.on("submit", function(event) {
             event.preventDefault();
+    
+            // Disable the submit button
+            $submitBtn.prop("disabled", true);
+    
+            // Add the loading spinner
+            $submitBtn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+    
             var formData = $form.serialize();
             $.post("/get_map", formData)
                 .done(function(response) {
@@ -236,10 +245,16 @@ class MapManager {
                 })
                 .fail(function() {
                     console.error("Error while updating map");
+                })
+                .always(function() {
+                    // Enable the submit button and remove the loading spinner
+                    $submitBtn.prop("disabled", false);
+                    $submitBtn.html("Submit");
                 });
         });
+    
         $form.trigger("submit");
-    }
+    }    
 }
 
 // Instantiate MapManager
