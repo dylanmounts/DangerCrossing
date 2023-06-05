@@ -105,17 +105,25 @@ def is_time_between(begin_time, end_time, check_time=datetime.datetime.now()):
 
 
 def process_acc_dict(acc_dict):
-    """Primary function for processing the acc_dict.json file. The acc_dict
-    currently contains a significant amount of data which isn't being used.
-    The map could be improved to incorporate it, but for now this function
-    essentially parses the unnecessary information down to a list of
-    coordinates matching the conditions requested by the user.
+    """Processes a dictionary of accident data for heatmap generation.
+
+    This function is the main method for processing the acc_dict. It
+    iterates through the input accident data, filters out invalid or
+    irrelevant data points, and prepares a new dictionary where each
+    entry represents an accident with lat-lon and date-time details.
 
     Args:
-        acc_dict (dict): JSON dictionary of accidents
+        acc_dict (dict): A dictionary containing accident data. Each
+            key is an accident identifier, and each value is a
+            dictionary containing details about the accident such as
+            lat-lon and date-time of the accident, and information
+            about the vehicles involved.
 
     Returns:
-        coord_dict (dict): Dictionary of coordinates to be mapped
+        coords_dict (dict): A new dictionary containing processed
+            accident data suitable for heatmap generation. Each key is
+            an accident identifier, and each value is a dictionary
+            containing lat-lon and date-time details of the accident.
     """
     coords_dict = {}
     for acc in acc_dict:
