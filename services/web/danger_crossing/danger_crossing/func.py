@@ -32,7 +32,6 @@ def get_acc_dict():
     try:
         redis = get_redis()
         acc_dict = redis.get('acc_dict')
-        app.logger.info(acc_dict)
         if acc_dict is None:
             return {}
         else:
