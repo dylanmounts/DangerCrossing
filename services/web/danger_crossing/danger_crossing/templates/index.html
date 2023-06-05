@@ -45,52 +45,58 @@
     </style>
 </head>
 <body>
+    
     <nav class="navbar navbar-dark bg-dark py-2">
-        <div class="container-fluid">
-            <form action="/" id="date-picker" method="post">
-                <fieldset>
-                    <label for="start">From:</label>
-                    <input 
-                        form="date-picker" 
-                        id="start" 
-                        max="{{ now }}" 
-                        min="2020-06-03" 
-                        name="date-start" 
-                        type="date" 
-                        value="{{ date_start }}" 
-                    />
-                    <label for="end">To:</label>
-                    <input 
-                        form="date-picker" 
-                        id="end" 
-                        max="{{ now }}" 
-                        min="2020-06-03" 
-                        name="date-end" 
-                        type="date" 
-                        value="{{ date_end }}" 
-                    />
-
-                    <div class="btn-group" role="group" aria-label="Injury type selection">
-                        Injuries:&nbsp;
-                        {% for injury in injury_types if injury != "ALL" %}
-                            <input 
-                                class="btn-check" 
-                                form="date-picker" 
-                                id="btn{{ injury }}" 
-                                name="btn{{ injury }}" 
-                                type="checkbox" 
-                                autocomplete="off" 
+        <div class="container-fluid pe-1">
+            <form class="w-100" action="/" id="date-picker" method="post">
+                <div class="d-flex flex-wrap">
+                    <div class="d-flex col-auto justify-content-start flex-nowrap mb-2 me-2">
+                        <label for="start">From:</label>
+                        <input
+                            form="date-picker"
+                            id="start"
+                            max="{{ now }}"
+                            min="2020-06-03"
+                            name="date-start"
+                            type="date"
+                            class="me-2"
+                            value="{{ date_start }}"
+                        />
+                        <label for="end">To:</label>
+                        <input
+                            form="date-picker"
+                            id="end"
+                            max="{{ now }}"
+                            min="2020-06-03"
+                            name="date-end"
+                            type="date"
+                            value="{{ date_end }}"
+                        />
+                    </div>
+                    <div class="col-auto">
+                        <div class="btn-group mb-2 me-2" role="group" aria-label="Injury type selection">
+                            Injuries:&nbsp;
+                            {% for injury in injury_types if injury != "ALL" %}
+                            <input
+                                class="btn-check"
+                                form="date-picker"
+                                id="btn{{ injury }}"
+                                name="btn{{ injury }}"
+                                type="checkbox"
+                                autocomplete="off"
                                 {% if injury in injury_selection %}checked=""{% endif %}
                             />
                             <label class="btn btn-outline-secondary btn-sm" for="btn{{ injury }}">{{ injury.capitalize() }}</label>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
-
-                    <button class="btn btn-primary btn-sm rounded ms-1" form="date-picker" type="submit">Submit</button>
-                </fieldset>
+                    <div class="col-auto">
+                        <button class="btn btn-primary btn-sm rounded ms-1" form="date-picker" type="submit">Submit</button>
+                    </div>
+                </div>
             </form>
         </div>
-    </nav>
+    </nav>    
 
     <div class="toast-container p-3 top-0 start-50 translate-middle-x" id="toastPlacement">
         <div class="toast border-info" id="introToast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10000" data-bs-autohide="true">
