@@ -130,7 +130,6 @@ def process_acc_dict(acc_dict):
             containing lat-lon and date-time details of the accident.
     """
     coords_dict = {}
-    app.logger.info("starting acc_dict process")
     for acc in acc_dict:
         lat = acc_dict[acc]["lat"]
         lon = acc_dict[acc]["lon"]
@@ -159,7 +158,6 @@ def process_acc_dict(acc_dict):
                 "lat": lat,
                 "date_time": date_time,
             }
-    app.logger.info("ending acc_dict process")
     return coords_dict
 
 
@@ -218,21 +216,38 @@ def process_damages(vehicle):
 
 
 def init_totals():
+    """Initialize a session variable to keep track of totals.
+
+    This function initializes the flask session variable "Totals" which
+    contains total counts for each accident, injury, and damage type.
+    """
     flask.session["Totals"] = {
         "All Accidents": 0,
         "Injuries": {injury.capitalize(): 0 for injury in INJURY_TYPES},
         "Damages": {damage.capitalize(): 0 for damage in DAMAGE_TYPES},
     }
 
+
 def set_injury_info():
+    """Set the selected injury types in the session.
+
+    Sets the injury type for filtering accidents based on the submitted
+    form data.
+    """
     if len(flask.request.form) == 0:
-        flask.session["injury_selection"] = ["MINOR", "MODERATE", "SERIOUS", "FATAL"]
+        flask.session["injury_selection"] = ["SERIOUS", "FATAL"]
     else:
         flask.session["injury_selection"] = [
             injury for injury in INJURY_TYPES if f"btn{injury}" in flask.request.form
         ]
 
+
 def set_date_info():
+    """Set the start and end dates in the session.
+
+    Sets the start and end dates for filtering accident data based on
+    the submitted form data.
+    """
     flask.session["date_start"], flask.session["date_end"] = get_date_times(
         flask.request.form
     )

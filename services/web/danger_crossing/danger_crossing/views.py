@@ -52,11 +52,8 @@ def get_accident():
 
 @app.route("/get_map", methods=["POST"])
 def get_map():
-    app.logger.info("initing_totals")
     func.init_totals()
-    app.logger.info("setting_injury_info")
     func.set_injury_info()
-    app.logger.info("setting_date_info")
     func.set_date_info()
     return func.process_acc_dict(func.get_acc_dict())
 

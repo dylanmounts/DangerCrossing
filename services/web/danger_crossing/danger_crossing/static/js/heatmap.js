@@ -27,20 +27,20 @@ class MapManager {
         });
     }
     addFeatures(coords_dict) {
-        this.data.clear()
-        console.log("here")
-        console.log(Object.keys(coords_dict).length)
+        this.data.clear();
+        let features = [];
         for (let [accident_id, accident_data] of Object.entries(coords_dict)) {
-            let coord = ol.proj.fromLonLat([accident_data.lon, accident_data.lat])
-            let lonLat = new ol.geom.Point(coord)
-            let dateTime = accident_data.date_time
+            let coord = ol.proj.fromLonLat([accident_data.lon, accident_data.lat]);
+            let lonLat = new ol.geom.Point(coord);
+            let dateTime = accident_data.date_time;
             let pointFeature = new ol.Feature({
                 geometry: lonLat,
                 accident_id: accident_id,
                 date_time: dateTime
             });
-            this.data.addFeature(pointFeature);
+            features.push(pointFeature);
         }
+        this.data.addFeatures(features);
     }
     addHeatmapLayer() {
         var heatMapLayer = new ol.layer.Heatmap({
@@ -64,10 +64,10 @@ class MapManager {
             threshold: 5,
             source: this.data
         });
-    
+
         // Variable to store the currently selected feature
         var selectedFeature = null;
-    
+
         this.map.once('postcompose', function (e) {
             document.querySelector('canvas').style.filter = "invert(90%)"; // Dark mode
             var styleCache = {};
@@ -136,7 +136,7 @@ class MapManager {
                 }
             });
             this.addLayer(clusters);
-    
+
             // Define select interaction
             var select = new ol.interaction.Select({
                 layers: function (layer) {
@@ -145,15 +145,15 @@ class MapManager {
                 multi: false
             });
             this.addInteraction(select);
-    
+
             // Add listener for select event on cluster
             select.on('select', function (event) {
                 var feature = event.selected[0]; // Get selected feature (the cluster)
-        
+
                 if (feature) {
                     // Get the features of the cluster
                     var clusterFeatures = feature.get('features');
-    
+
                     // Determine which modal to show based of how many features are in the cluster
                     if (clusterFeatures.length === 1) {
                         selectedFeature = feature;
@@ -189,8 +189,8 @@ class MapManager {
                     this.getTargetElement().style.cursor = '';
                 }
             });
-    
-            // Event handler for when the modal is dismissed
+
+            // Event handler for when a modal is dismissed
             $('#accidentInfoModal').on('hidden.bs.modal', function () {
                 if (selectedFeature) {
                     // Unselect the selected cluster
@@ -205,7 +205,7 @@ class MapManager {
                     selectedFeature = null;
                 }
             });
-    
+
             // Event handler for when the modal backdrop is clicked
             $('#accidentInfoModal').on('click', function (e) {
                 if (e.target === this && this.selectedFeature) {
