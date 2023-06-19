@@ -45,13 +45,16 @@ services:
     command: cron -f
 
   redis:
-    image: redis
+    image: redis:alpine
     container_name: danger_crossing_redis
+    command: sh -c "echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf && redis-server"
     ports:
       - 6379:6379
     volumes:
       - redis-data:/data
-  
+    mem_limit: 1g
+    memswap_limit: 4g
+
 
 volumes:
   acc-dict:
