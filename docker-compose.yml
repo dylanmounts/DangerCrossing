@@ -68,7 +68,7 @@ services:
     volumes:
       - redis-data:/data
     mem_limit: 5g
-    memswap_limit: 4g
+    memswap_limit: 5g
 
 
 volumes:
