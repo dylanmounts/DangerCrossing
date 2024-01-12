@@ -23,6 +23,9 @@
     <br />
     <a href="https://DangerCrossing.com"><strong>https://DangerCrossing.com</strong></a>
   </p>
+  <p>
+    <strong>UPDATE (12 Sep 2023):</strong> The MSHP has placed their accident information database behind a captcha, making it unfeasible for Danger Crossing to continue accessing new data. As a result, the project will no longer be updated with fresh accident information post-12 Sep 2023. However, the website will remain operational, featuring historical data collected up until this date.
+  </p>
 </div>
 
 
